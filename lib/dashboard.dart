@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'courseDashboard.dart';
+import 'loginScreen.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({
@@ -68,17 +69,25 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   child: ConstrainedBox(
                     constraints: const BoxConstraints(maxHeight: 600),
-                    child: UserSidebar(
-                      isDropdown: true,
-                      onMyLearningTap: () {
-                        _closeProfileDropdown();
-                        setState(() => _showMyLearning = true);
-                      },
-                      onDashboardTap: () {
-                        _closeProfileDropdown();
-                        setState(() => _showMyLearning = false);
-                      },
-                    ),
+                      child: UserSidebar(
+                        isDropdown: true,
+                        onMyLearningTap: () {
+                          _closeProfileDropdown();
+                          setState(() => _showMyLearning = true);
+                        },
+                        onDashboardTap: () {
+                          _closeProfileDropdown();
+                          setState(() => _showMyLearning = false);
+                        },
+                        onLogoutTap: () {
+                          _closeProfileDropdown();
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AuthScreen()),
+                          );
+                        },
+                      ),
                   ),
                 ),
               ),
@@ -347,6 +356,7 @@ class UserSidebar extends StatelessWidget {
   final bool isDropdown;
   final VoidCallback onMyLearningTap;
   final VoidCallback onDashboardTap;
+  final VoidCallback onLogoutTap;
 
   const UserSidebar({
     super.key,
@@ -354,6 +364,7 @@ class UserSidebar extends StatelessWidget {
     this.isDropdown = false,
     required this.onMyLearningTap,
     required this.onDashboardTap,
+    required this.onLogoutTap,
   });
 
   @override
@@ -450,7 +461,8 @@ class UserSidebar extends StatelessWidget {
                     trailing: const Text('English (English)',
                         style: TextStyle(color: Colors.grey, fontSize: 13))),
                 const Divider(height: 1, indent: 20, endIndent: 20),
-                _buildSectionHeader(Icons.logout_outlined, 'Logout'),
+                _buildSectionHeader(Icons.logout_outlined, 'Logout',
+                    onTap: onLogoutTap),
               ],
             ),
           ),
@@ -459,26 +471,30 @@ class UserSidebar extends StatelessWidget {
     );
   }
 
-  Widget _buildSectionHeader(IconData icon, String title, {Widget? trailing}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-      child: Row(
-        children: [
-          Icon(icon, size: 22, color: Colors.black87),
-          const SizedBox(width: 15),
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
+  Widget _buildSectionHeader(IconData icon, String title,
+      {Widget? trailing, VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        child: Row(
+          children: [
+            Icon(icon, size: 22, color: Colors.black87),
+            const SizedBox(width: 15),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
             ),
-          ),
-          if (trailing != null) ...[
-            const Spacer(),
-            trailing,
+            if (trailing != null) ...[
+              const Spacer(),
+              trailing,
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

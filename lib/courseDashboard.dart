@@ -53,12 +53,12 @@ class _CourseDashboardContentState extends State<CourseDashboardContent> {
   Widget build(BuildContext context) {
     // Mock data for registered courses
     final List<Course> registeredCourses = [
-      Course(title: "PHP & Laravel", icon: Icons.code),
-      Course(title: "MySQL Database", icon: Icons.storage),
-      Course(title: "Unix Programming", icon: Icons.terminal),
-      Course(title: "Flutter Basics", icon: Icons.mobile_friendly),
-      Course(title: "Computer Networks", icon: Icons.router),
-      Course(title: "Web UI Design", icon: Icons.web),
+      // Course(title: "PHP & Laravel", icon: Icons.code),
+      // Course(title: "MySQL Database", icon: Icons.storage),
+      // Course(title: "Unix Programming", icon: Icons.terminal),
+      // Course(title: "Flutter Basics", icon: Icons.mobile_friendly),
+      // Course(title: "Computer Networks", icon: Icons.router),
+      // Course(title: "Web UI Design", icon: Icons.web),
     ];
 
     return Padding(

@@ -1,3 +1,4 @@
+import 'package:cognizone/helpers/myCarousel.dart';
 import 'package:flutter/material.dart';
 import 'package:cognizone/coursePage.dart';
 import 'courseDashboard.dart';
@@ -227,18 +228,11 @@ class _LandingPageState extends State<LandingPage> {
           body: Container(
             color: const Color(0xFFF8F9FB),
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+              //padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
               child: Column(
                 children: [
-                  Text(
-                    "Welcome back, Sanket!",
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blueAccent.shade700,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
+                  myCarousel(),
+                  const SizedBox(height: 50),
                   const Text(
                     "Learn programming for free",
                     style: TextStyle(
@@ -256,7 +250,8 @@ class _LandingPageState extends State<LandingPage> {
                     children: [
                       _buildLanguageCard("Python", Icons.code, Colors.blue),
                       _buildLanguageCard("SQL", Icons.storage, Colors.orange),
-                      _buildLanguageCard("R", Icons.analytics, Colors.blueAccent),
+                      _buildLanguageCard(
+                          "R", Icons.analytics, Colors.blueAccent),
                       _buildLanguageCard("HTML", Icons.html, Colors.deepOrange),
                       _buildLanguageCard("CSS", Icons.css, Colors.blue),
                       _buildLanguageCard("JavaScript", Icons.javascript,
@@ -267,12 +262,16 @@ class _LandingPageState extends State<LandingPage> {
                       _buildLanguageCard("C++", Icons.add_box, Colors.blue),
                       _buildLanguageCard("C#", Icons.tag, Colors.purple),
                       _buildLanguageCard("Go", Icons.bolt, Colors.cyan),
-                      _buildLanguageCard("Kotlin", Icons.smartphone, Colors.indigo),
-                      _buildLanguageCard("Swift", Icons.apple, Colors.orangeAccent),
-                      _buildLanguageCard("DSA", Icons.account_tree, Colors.green),
-                      _buildLanguageCard("NumPy", Icons.calculate, Colors.blue.shade800),
-                      _buildLanguageCard("Pandas", Icons.table_chart,
-                          Colors.indigo.shade900),
+                      _buildLanguageCard(
+                          "Kotlin", Icons.smartphone, Colors.indigo),
+                      _buildLanguageCard(
+                          "Swift", Icons.apple, Colors.orangeAccent),
+                      _buildLanguageCard(
+                          "DSA", Icons.account_tree, Colors.green),
+                      _buildLanguageCard(
+                          "NumPy", Icons.calculate, Colors.blue.shade800),
+                      _buildLanguageCard(
+                          "Pandas", Icons.table_chart, Colors.indigo.shade900),
                       _buildLanguageCard("Rust", Icons.settings, Colors.brown),
                       _buildLanguageCard("Ruby", Icons.atm, Colors.redAccent),
                     ],
@@ -342,7 +341,7 @@ class _LandingPageState extends State<LandingPage> {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),

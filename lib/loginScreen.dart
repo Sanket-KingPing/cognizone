@@ -4067,6 +4067,178 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  void _showGoogleAccountPicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        bool showEmailInput = false;
+        final TextEditingController emailController = TextEditingController();
+
+        return StatefulBuilder(
+          builder: (context, setState) {
+            final bool rightIsDark = !isDarkMode;
+            final Color bgColor =
+                rightIsDark ? const Color(0xFF1E1E1E) : Colors.white;
+            final Color textColor = rightIsDark ? Colors.white : Colors.black87;
+            final Color subtitleColor =
+                rightIsDark ? Colors.white70 : Colors.black54;
+            final Color dividerColor =
+                rightIsDark ? Colors.white24 : Colors.black12;
+
+            return Dialog(
+              backgroundColor: bgColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              child: Container(
+                width: 400,
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Choose an account",
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: textColor),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "to continue to Cognizone Academy",
+                        style: TextStyle(fontSize: 14, color: subtitleColor),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    if (!showEmailInput) ...[
+                      // Account List
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        leading: const CircleAvatar(
+                          backgroundColor: Color(0xFFD81B60),
+                          child: Text("S",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                        title: Text("Sanket Saha",
+                            style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16)),
+                        subtitle: Text("sanketsaha65@gmail.com",
+                            style:
+                                TextStyle(color: subtitleColor, fontSize: 14)),
+                        onTap: () {
+                          _loginEmailController.text = "sanketsaha65@gmail.com";
+                          Navigator.pop(context); // Close dialog
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const Dashboard()),
+                          );
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Divider(color: dividerColor),
+                      ),
+                      ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        leading: Icon(Icons.account_circle_outlined,
+                            color: textColor, size: 36),
+                        title: Text("Use another account",
+                            style: TextStyle(
+                                color: textColor,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16)),
+                        onTap: () {
+                          setState(() {
+                            showEmailInput = true;
+                          });
+                        },
+                      ),
+                    ] else ...[
+                      // Email Input Form
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: IconButton(
+                            icon: Icon(Icons.arrow_back, color: textColor),
+                            onPressed: () {
+                              setState(() {
+                                showEmailInput = false;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            TextField(
+                              controller: emailController,
+                              style: TextStyle(color: textColor),
+                              decoration: InputDecoration(
+                                labelText: "Email or phone",
+                                labelStyle: TextStyle(color: subtitleColor),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: dividerColor),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.blue),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    if (emailController.text.isNotEmpty) {
+                                      _loginEmailController.text =
+                                          emailController.text;
+                                      Navigator.pop(context); // Close dialog
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Dashboard()),
+                                      );
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.blue,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  child: const Text("Next"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildGoogleButton(String label) {
     final bool rightIsDark = !isDarkMode;
     final Color bgColor =
@@ -4076,7 +4248,7 @@ class _AuthScreenState extends State<AuthScreen> {
         rightIsDark ? Colors.white54 : Colors.grey.shade300;
 
     return OutlinedButton.icon(
-      onPressed: () {},
+      onPressed: _showGoogleAccountPicker,
       icon: Image.asset(
         'assets/images/Google_logo.png',
         height: 24,
@@ -4168,7 +4340,7 @@ class _AuthScreenState extends State<AuthScreen> {
         const SizedBox(height: 15),
         _buildGoogleButton("Login with Google"),
         const SizedBox(height: 25),
-        _buildToggleLink("Don't Have an account?", "Sign In", () {
+        _buildToggleLink("Don't Have an account?", "Sign Up", () {
           setState(() {
             isLogin = false;
           });
@@ -4477,39 +4649,39 @@ class _AuthScreenState extends State<AuthScreen> {
                         : const Color(0xFF0A2342),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 50, vertical: 20),
-                    child: Stack(
-                      children: [
-                        // Toggle Button
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: Row(
+                    child: Center(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 40.0, bottom: 40.0),
+                          child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const Icon(Icons.light_mode,
-                                  color: Colors.orange),
-                              Switch(
-                                value: isDarkMode,
-                                onChanged: (val) {
-                                  setState(() => isDarkMode = val);
-                                },
+                              // Toggle Button (Moved inside ScrollView)
+                              Align(
+                                alignment: Alignment.topRight,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.light_mode,
+                                        color: Colors.orange),
+                                    Switch(
+                                      value: isDarkMode,
+                                      onChanged: (val) {
+                                        setState(() => isDarkMode = val);
+                                      },
+                                    ),
+                                    const Icon(Icons.dark_mode,
+                                        color: Colors.blueGrey),
+                                  ],
+                                ),
                               ),
-                              const Icon(Icons.dark_mode,
-                                  color: Colors.blueGrey),
+                              const SizedBox(height: 20),
+                              isLogin ? _buildLoginForm() : _buildSignInForm(),
                             ],
                           ),
                         ),
-                        Center(
-                          child: SingleChildScrollView(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 40.0, bottom: 40.0),
-                              child: isLogin
-                                  ? _buildLoginForm()
-                                  : _buildSignInForm(),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
